@@ -3,6 +3,7 @@ import { ConfigModule } from './common/config/config.module';
 import { ConfigService } from './common/config/config.service';
 import { DatabaseModule } from './common/database/database.module';
 import { MedicalSupplyModule } from './medical-supply/medical-supply.module';
+import { NationalAssetModule } from './national-asset/national-asset.module';
 
 
 
@@ -11,7 +12,8 @@ import { MedicalSupplyModule } from './medical-supply/medical-supply.module';
   imports: [
     DatabaseModule,
     ConfigModule,
-    MedicalSupplyModule,],
+    MedicalSupplyModule,
+    NationalAssetModule,],
   controllers: [],
   providers: [],
 })
