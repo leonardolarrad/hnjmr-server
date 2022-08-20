@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from './common/config/config.module';
 import { ConfigService } from './common/config/config.service';
 import { DatabaseModule } from './common/database/database.module';
+import { MedicalSupplyModule } from './medical-supply/medical-supply.module';
 
 
 
@@ -9,7 +10,8 @@ import { DatabaseModule } from './common/database/database.module';
 @Module({
   imports: [
     DatabaseModule,
-    ConfigModule,],
+    ConfigModule,
+    MedicalSupplyModule,],
   controllers: [],
   providers: [],
 })
