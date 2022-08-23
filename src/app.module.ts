@@ -5,6 +5,7 @@ import { DatabaseModule } from './common/database/database.module';
 import { MedicalSupplyModule } from './medical-supply/medical-supply.module';
 import { NationalAssetModule } from './national-asset/national-asset.module';
 import { PatientModule } from './patient/patient.module';
+import { CommonModule } from './common/common.module';
 
 
 
@@ -15,7 +16,8 @@ import { PatientModule } from './patient/patient.module';
     ConfigModule,
     MedicalSupplyModule,
     NationalAssetModule,
-    PatientModule,],
+    PatientModule,
+    CommonModule,],
   controllers: [],
   providers: [],
 })
