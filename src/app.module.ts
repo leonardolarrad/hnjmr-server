@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from './common/config/config.module';
-import { ConfigService } from './common/config/config.service';
-import { DatabaseModule } from './common/database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
 import { MedicalSupplyModule } from './medical-supply/medical-supply.module';
 import { NationalAssetModule } from './national-asset/national-asset.module';
 import { PatientModule } from './patient/patient.module';
@@ -10,10 +9,21 @@ import { CommonModule } from './common/common.module';
 
 
 
+
+
 @Module({
   imports: [
-    DatabaseModule,
-    ConfigModule,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: process.env.POSTGRES_HOST,
+      port: +process.env.POSTGRES_PORT,
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
     MedicalSupplyModule,
     NationalAssetModule,
     PatientModule,
@@ -21,9 +31,4 @@ import { CommonModule } from './common/common.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {
-  static port: number | string;
-  constructor(private readonly _configService: ConfigService) {
-    AppModule.port = this._configService.get('PORT');
-  }
-}
+export class AppModule {}

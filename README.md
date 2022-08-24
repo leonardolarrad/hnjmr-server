@@ -24,7 +24,9 @@ $ git clone https://github.com/ChristianSanchez25/hnjmr-server.git
 $ npm install
 ```
 
-2. Una vez instalada las dependencias necesarias, basta colocar el siguiente comando para ejecutar la app:
+2.  Cambiar las credenciales en el archivo: **.env.template** y luego cambiarle el nombre a **.env**
+
+3.  Una vez instalada las dependencias necesarias, basta colocar el siguiente comando para ejecutar la app:
 
 ```
 $ npm run start:dev
