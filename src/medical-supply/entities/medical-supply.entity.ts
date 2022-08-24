@@ -5,9 +5,9 @@ export class MedicalSupply {
     @PrimaryGeneratedColumn()
     id_medical_supplies: number;
 
-    @Column('text')
+    @Column({type: 'varchar' })
     name_material: string;
 
-    @Column('text', { nullable: true })
+    @Column({type: 'varchar', nullable: true })
     description: string;
 }

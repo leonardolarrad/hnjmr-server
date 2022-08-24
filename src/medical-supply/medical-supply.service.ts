@@ -35,7 +35,7 @@ export class MedicalSupplyService {
       skip: offset,
       order: {
         name_material: "ASC",
-        id_medical_supplies: "DESC"
+        id_medical_supplies: "ASC"
       }
     });
     this.logger.log(`Found ${medical_supplies.length} medical_supplies`, 'Medical-SupplyService');
