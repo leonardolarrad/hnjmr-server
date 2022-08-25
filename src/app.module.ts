@@ -6,6 +6,7 @@ import { NationalAssetModule } from './national-asset/national-asset.module';
 import { PatientModule } from './patient/patient.module';
 import { CommonModule } from './common/common.module';
 import { LotModule } from './medical-supply/lot/lot.module';
+import { DepartmentModule } from './department/department.module';
 
 
 
@@ -29,7 +30,8 @@ import { LotModule } from './medical-supply/lot/lot.module';
     LotModule,
     NationalAssetModule,
     PatientModule,
-    CommonModule,],
+    CommonModule,
+    DepartmentModule,],
   controllers: [],
   providers: [],
 })
