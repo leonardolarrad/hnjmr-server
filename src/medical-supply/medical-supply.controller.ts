@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe 
 import { MedicalSupplyService } from './medical-supply.service';
 import { CreateMedicalSupplyDto } from './dto/create-medical-supply.dto';
 import { UpdateMedicalSupplyDto } from './dto/update-medical-supply.dto';
-import { PaginatonDto } from '../common/dtos/pagination.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 
 @Controller('medical-supply')
 export class MedicalSupplyController {
@@ -14,7 +14,7 @@ export class MedicalSupplyController {
   }
 
   @Get()
-  findAll(@Query() paginationDto: PaginatonDto) {
+  findAll(@Query() paginationDto: PaginationDto) {
     return this.medicalSupplyService.findAll(paginationDto);
   }
 
@@ -24,7 +24,7 @@ export class MedicalSupplyController {
   }
 
   @Get('name/:name')
-  findByName(@Param('name') name: string, @Query() paginationDto: PaginatonDto) {
+  findByName(@Param('name') name: string, @Query() paginationDto: PaginationDto) {
     return this.medicalSupplyService.findByName(name, paginationDto);
   }
 

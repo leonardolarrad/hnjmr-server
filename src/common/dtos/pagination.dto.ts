@@ -2,7 +2,7 @@ import { Type } from "class-transformer";
 import { IsOptional, IsPositive, Min } from "class-validator";
 
 
-export class PaginatonDto {
+export class PaginationDto {
     @IsOptional()
     @Type(() => Number)
     @Min(0)

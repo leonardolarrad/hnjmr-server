@@ -5,6 +5,7 @@ import { MedicalSupplyModule } from './medical-supply/medical-supply.module';
 import { NationalAssetModule } from './national-asset/national-asset.module';
 import { PatientModule } from './patient/patient.module';
 import { CommonModule } from './common/common.module';
+import { LotModule } from './medical-supply/lot/lot.module';
 
 
 
@@ -25,6 +26,7 @@ import { CommonModule } from './common/common.module';
       synchronize: true,
     }),
     MedicalSupplyModule,
+    LotModule,
     NationalAssetModule,
     PatientModule,
     CommonModule,],

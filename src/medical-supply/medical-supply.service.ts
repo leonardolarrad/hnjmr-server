@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, NotFound
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { PaginatonDto } from '../common/dtos/pagination.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 import { LoggerAdapter } from '../common/adapters/logger.adapter';
 import { CreateMedicalSupplyDto } from './dto/create-medical-supply.dto';
 import { UpdateMedicalSupplyDto } from './dto/update-medical-supply.dto';
@@ -28,7 +28,7 @@ export class MedicalSupplyService {
     }
   }
 
-  async findAll(paginationDto: PaginatonDto) {
+  async findAll(paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0} = paginationDto;
     const medical_supplies = await this.medicalRepository.find({
       take: limit,
@@ -50,10 +50,10 @@ export class MedicalSupplyService {
     return medicalSupply;
   }
 
-  async findByName(name: string, paginationDto: PaginatonDto) {
+  async findByName(name: string, paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0} = paginationDto;
     const query = this.medicalRepository.createQueryBuilder()
-                  .where('name_material LIKE :name', { name: `%${name}%` })
+                  .where('UPPER(name_material) LIKE :name', { name: `%${name.toUpperCase()}%` })
                   .take(limit)
                   .skip(offset)
                   .orderBy('name_material', 'ASC');

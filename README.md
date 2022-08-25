@@ -7,6 +7,7 @@
 - [NodeJs](https://nodejs.org/es/download/)
 - [TypeScript](https://www.npmjs.com/package/typescript)
 - [NestJs](https://docs.nestjs.com/)
+- [Postgres](https://www.postgresql.org/download/)
 
 ### ⚙️ Instalación - hnjmr-server
 
