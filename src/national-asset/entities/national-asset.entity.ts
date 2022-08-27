@@ -21,7 +21,7 @@ export class NationalAsset {
     date_acquisition : Date;
 
     @Column({ type: "date"})
-    discontinued_date : Date;
+    date_discontinued : Date;
 
     @Column({ type: "varchar", length: 512, nullable : true })
     storage : string;
@@ -43,7 +43,7 @@ export class NationalAsset {
         this.created_at = new Date();
         this.updated_at = new Date();
     }
-    
+
     @BeforeUpdate()
     updateDate() {
         this.updated_at = new Date();

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { NationalAssetService } from './national-asset.service';
 import { CreateNationalAssetDto } from './dto/create-national-asset.dto';
 import { UpdateNationalAssetDto } from './dto/update-national-asset.dto';
@@ -15,21 +15,21 @@ export class NationalAssetController {
 
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
-    return this.nationalAssetService.findAll();
+    return this.nationalAssetService.findAll(paginationDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.nationalAssetService.findOne(+id);
+  @Get(':term')
+  findByTerm(@Param('term') term: string, @Query() paginationDto : PaginationDto) {
+    return this.nationalAssetService.findByTerm(term, paginationDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNationalAssetDto: UpdateNationalAssetDto) {
+  update(@Param('id', ParseIntPipe) id: string, @Body() updateNationalAssetDto: UpdateNationalAssetDto) {
     return this.nationalAssetService.update(+id, updateNationalAssetDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: string) {
     return this.nationalAssetService.remove(+id);
   }
 }
