@@ -12,6 +12,6 @@ export class MedicalSupply {
     @Column({type: 'varchar', nullable: true })
     description: string;
 
-    @OneToMany(type => Lot, lot => lot.medicalSupply)
+    @OneToMany(type => Lot, lot => lot.medicalSupply, { cascade: true })
     lots: Lot[];
 }

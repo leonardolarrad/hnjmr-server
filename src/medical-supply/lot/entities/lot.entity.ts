@@ -19,6 +19,6 @@ export class Lot {
     @ManyToOne(type => MedicalSupply, medicalSupply => medicalSupply.lots)
     medicalSupply: MedicalSupply;
 
-    @ManyToOne(type => Supplier, supplier => supplier.lots)
+    @ManyToOne(type => Supplier, supplier => supplier.lots, { onDelete: 'CASCADE' })
     supplier: Supplier;
 }

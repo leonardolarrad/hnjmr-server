@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { NationalAssetService } from './national-asset.service';
 import { CreateNationalAssetDto } from './dto/create-national-asset.dto';
 import { UpdateNationalAssetDto } from './dto/update-national-asset.dto';
+import { PaginationDto } from '../common/dtos/pagination.dto';
 
 @Controller('national-asset')
 export class NationalAssetController {
@@ -13,7 +14,7 @@ export class NationalAssetController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query() paginationDto: PaginationDto) {
     return this.nationalAssetService.findAll();
   }
 
