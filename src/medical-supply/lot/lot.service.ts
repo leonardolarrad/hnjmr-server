@@ -97,6 +97,14 @@ export class LotService {
     this.logger.log(`Removed Lot with id ${id}`, 'LotService');
   }
 
+  async deleteAllLots() {
+    const query = this.lotRepository.createQueryBuilder();
+    try {
+      return await query.delete().where({}).execute();
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
 
   private handleError(error: any) {
     this.logger.error(error.message, 'LotService');
@@ -105,4 +113,5 @@ export class LotService {
     }
     throw new InternalServerErrorException('Error check logs ');
   }
+
 }

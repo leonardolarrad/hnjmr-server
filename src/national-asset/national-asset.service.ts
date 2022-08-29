@@ -98,4 +98,13 @@ export class NationalAssetService {
     }
     throw new InternalServerErrorException('Error check logs ');
   }
+
+  async deleteAllAssets() {
+    const query = this.assetRepository.createQueryBuilder();
+    try {
+      return await query.delete().where({}).execute();
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
 }

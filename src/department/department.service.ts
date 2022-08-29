@@ -80,4 +80,15 @@ export class DepartmentService {
     }
     throw new InternalServerErrorException('Error check logs ');
   }
+
+  async deleteAllDepartments() {
+    const query = this.departmentRepository.createQueryBuilder();
+    try {
+      return await query.delete().where({}).execute();
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+
 }
