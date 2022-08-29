@@ -10,10 +10,10 @@ export class Supplier {
     @Column({type: 'varchar' })
     name_supplier: string;
 
-    @Column({type: 'varchar'})
+    @Column({type: 'varchar', nullable: true })
     phone: string;
 
-    @Column({type: 'varchar'})
+    @Column({type: 'varchar', nullable: true })
     address: string;
 
     @OneToMany(type => Lot, lot => lot.supplier)
