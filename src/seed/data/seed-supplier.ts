@@ -1,4 +1,4 @@
-interface SeedSupplier {
+export interface SeedSupplier {
     name_supplier : string;
     phone?: string;
     address?: string;

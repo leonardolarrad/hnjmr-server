@@ -1,4 +1,4 @@
-interface SeedLot {
+export interface SeedLot {
     date_delivery: Date;
     stock: number;
     due_date?: Date;

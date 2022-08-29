@@ -1,4 +1,4 @@
-interface SeedAsset {
+export interface SeedAsset {
     name: string;
     description?: string;
     status: ValidStatus;
