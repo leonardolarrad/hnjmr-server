@@ -6,9 +6,7 @@ export interface SeedSupplier {
 
 export const seedSuppliers: SeedSupplier[] = [
     {
-        name_supplier: 'Supplier 1',
-        phone: 'Phone 1',
-        address: 'Address 1'
+        name_supplier: 'Donacion'
     },
     {
         name_supplier: 'Supplier 2',

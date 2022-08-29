@@ -58,5 +58,19 @@ export const seedLots: SeedLot[] = [
         due_date: new Date('2029-12-19'),
         id_medical_supplies: 2,
         id_suppliers: 3
-    },            
+    },
+    {
+        date_delivery: new Date('2021-12-19'),
+        stock: 25,
+        due_date: new Date('2029-12-19'),
+        id_medical_supplies: 2,
+        id_suppliers: 3
+    },
+    {
+        date_delivery: new Date('2021-12-19'),
+        stock: 25,
+        due_date: new Date('2029-12-19'),
+        id_medical_supplies: 2,
+        id_suppliers: 3
+    }                         
 ];
