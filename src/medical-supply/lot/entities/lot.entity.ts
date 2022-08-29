@@ -16,7 +16,7 @@ export class Lot {
     @Column({type: 'date' })
     due_date: Date;
 
-    @ManyToOne(type => MedicalSupply, medicalSupply => medicalSupply.lots)
+    @ManyToOne(type => MedicalSupply, medicalSupply => medicalSupply.lots, { onDelete: 'CASCADE' })
     medicalSupply: MedicalSupply;
 
     @ManyToOne(type => Supplier, supplier => supplier.lots, { onDelete: 'CASCADE' })

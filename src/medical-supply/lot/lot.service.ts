@@ -24,7 +24,7 @@ export class LotService {
 
   async create(createLotDto: CreateLotDto) {
     try {
-      const { id_medical_supplies, id_suppliers, ...lotDetails } = createLotDto;
+      const { id_medical_supplies, id_suppliers = 1, ...lotDetails } = createLotDto;
       const medicalSupply = await this.medicalSupplyService.findOneById(id_medical_supplies);
       const supplier = await this.supplierRepository.findOne({ where: { id_suppliers: id_suppliers } });
       const lot = this.lotRepository.create({ ...lotDetails, medicalSupply, supplier });
