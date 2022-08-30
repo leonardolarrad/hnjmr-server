@@ -9,6 +9,7 @@ import { UpdateLotDto } from './dto/update-lot.dto';
 import { Lot } from './entities/lot.entity';
 import { Supplier } from './entities/supplier.entity';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
+import { Order } from '../../common/enums/order.enum';
 
 
 @Injectable()
@@ -38,7 +39,7 @@ export class LotService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    let { limit = 20 , offset = 0, sort = 'id_lots', order} = paginationDto;
+    let { limit = 20 , offset = 0, sort = 'date_delivery', order = Order.DESC } = paginationDto;
     if ( sort === 'name_material' || sort === 'description')
       sort = 'medicalSupply.' + sort;
     else
@@ -72,12 +73,11 @@ export class LotService {
 
 
   async findByTerm( paginationDto: PaginationDto) {
-    let { limit = 20 , offset = 0, sort = 'id_lots', order} = paginationDto;
+    let { limit = 20 , offset = 0, sort = 'date_delivery', order = Order.DESC} = paginationDto;
     if ( sort === 'name_material' || sort === 'description')
       sort = 'medicalSupply.' + sort;
     else
       sort = 'lots.' + sort;
-    console.log(sort)
     const term = paginationDto.search;
     const lots = await this.lotRepository.createQueryBuilder('lots')
                      .leftJoinAndSelect('lots.medicalSupply', 'medicalSupply')

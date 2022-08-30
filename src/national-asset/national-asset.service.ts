@@ -6,6 +6,7 @@ import { LoggerAdapter } from '../common/adapters/logger.adapter';
 import { CreateNationalAssetDto } from './dto/create-national-asset.dto';
 import { UpdateNationalAssetDto } from './dto/update-national-asset.dto';
 import { NationalAsset } from './entities/national-asset.entity';
+import { Order } from '../common/enums/order.enum';
 
 @Injectable()
 export class NationalAssetService {
@@ -29,7 +30,7 @@ export class NationalAssetService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0, sort = 'id_asset', order} = paginationDto;
+    const { limit = 20 , offset = 0, sort = 'id_asset', order = Order.ASC} = paginationDto;
     const assets = await this.assetRepository.find({
       take: limit,
       skip: offset,
@@ -61,7 +62,7 @@ export class NationalAssetService {
   }
 
   async findByTerm(paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0, sort = 'id_asset', order} = paginationDto;
+    const { limit = 20 , offset = 0, sort = 'id_asset', order = Order.ASC} = paginationDto;
     const term = paginationDto.search;
     const query = this.assetRepository.createQueryBuilder()
                   .where('upper(name) LIKE :term', { term: `%${term.toUpperCase()}%` })

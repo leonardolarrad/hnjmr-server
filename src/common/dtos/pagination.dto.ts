@@ -8,7 +8,7 @@ export class PaginationDto {
     @Type(() => Number)
     @Min(0)
     offset?: number;
-    
+
     @IsPositive()
     @IsOptional()
     @Type(() => Number)
@@ -24,5 +24,5 @@ export class PaginationDto {
 
     @IsEnum(Order)
     @IsOptional()
-    order?: Order = Order.ASC;
+    order?: Order ;
 }
