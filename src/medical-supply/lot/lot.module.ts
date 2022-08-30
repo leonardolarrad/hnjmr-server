@@ -16,5 +16,6 @@ import { CommonModule } from '../../common/common.module';
     MedicalSupplyModule,
     CommonModule,
   ],
+  exports: [LotService, TypeOrmModule],
 })
 export class LotModule {}

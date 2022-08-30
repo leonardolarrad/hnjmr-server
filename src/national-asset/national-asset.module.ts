@@ -12,5 +12,6 @@ import { CommonModule } from '../common/common.module';
     TypeOrmModule.forFeature([NationalAsset]),
     CommonModule,
   ],
+  exports: [NationalAssetService, TypeOrmModule],
 })
 export class NationalAssetModule {}

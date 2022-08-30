@@ -14,6 +14,6 @@ import { CommonModule } from '../common/common.module';
     TypeOrmModule.forFeature([MedicalSupply]),
     CommonModule,
   ],
-  exports: [MedicalSupplyService],
+  exports: [MedicalSupplyService, TypeOrmModule],
 })
 export class MedicalSupplyModule {}

@@ -12,5 +12,6 @@ import { CommonModule } from '.././common/common.module';
     TypeOrmModule.forFeature([Department]),
     CommonModule,
   ],
+  exports: [DepartmentService, TypeOrmModule],
 })
 export class DepartmentModule {}
