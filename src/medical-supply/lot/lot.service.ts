@@ -38,8 +38,7 @@ export class LotService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0} = paginationDto;
-    const sort = paginationDto.sort;
+    const { limit = 20 , offset = 0, sort = 'id_lots'} = paginationDto;
     const lots = await this.lotRepository.find({
       take: limit,
       skip: offset,
@@ -48,6 +47,7 @@ export class LotService {
         medicalSupply:{
           id_medical_supplies: 'ASC',
         },
+        [sort]: 'ASC',
       }
     })
     this.logger.log(`Found ${lots.length} lots`, 'LotService')
@@ -72,9 +72,8 @@ export class LotService {
 
 
   async findByTerm( paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0} = paginationDto;
+    const { limit = 20 , offset = 0, sort = 'id_lots'} = paginationDto;
     const term = paginationDto.search;
-    const sort = paginationDto.sort;
     const lots = await this.lotRepository.createQueryBuilder('lots')
                      .leftJoin('lots.medicalSupply', 'medicalSupply')
                      .leftJoinAndSelect('lots.medicalSupply', 'medicalSupplyType')
@@ -84,7 +83,7 @@ export class LotService {
                      .orWhere('UPPER(medicalSupply.name_material) LIKE :term', { term: `%${term.toUpperCase()}%` })                 
                      .take(limit)
                      .skip(offset)
-                     .orderBy(sort)
+                     .orderBy('lots.'+sort, 'ASC')
                      .getMany();
     this.logger.log(`Found ${lots.length} lots`, 'LotService')
     return lots;
