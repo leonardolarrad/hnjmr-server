@@ -29,12 +29,12 @@ export class NationalAssetService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0, sort = 'id_asset'} = paginationDto;
+    const { limit = 20 , offset = 0, sort = 'id_asset', order} = paginationDto;
     const assets = await this.assetRepository.find({
       take: limit,
       skip: offset,
       order: {
-        [sort]: 'ASC',
+        [sort]: order,
       }
     });
     this.logger.log(`Found ${assets.length} assets`, 'National-AssetService');
@@ -61,7 +61,7 @@ export class NationalAssetService {
   }
 
   async findByTerm(paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0, sort = 'id_asset'} = paginationDto;
+    const { limit = 20 , offset = 0, sort = 'id_asset', order} = paginationDto;
     const term = paginationDto.search;
     const query = this.assetRepository.createQueryBuilder()
                   .where('upper(name) LIKE :term', { term: `%${term.toUpperCase()}%` })
@@ -72,7 +72,7 @@ export class NationalAssetService {
                   .orWhere('UPPER(source) LIKE :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('date_acquisition::text LIKE :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('date_discontinued::text LIKE :term', { term: `%${term.toUpperCase()}%` })
-                  .orderBy(sort, 'ASC')
+                  .orderBy(sort, order)
                   .take(limit)
                   .skip(offset)
     const assets =  await query.getMany();

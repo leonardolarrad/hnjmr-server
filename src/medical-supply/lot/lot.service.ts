@@ -38,18 +38,18 @@ export class LotService {
   }
 
   async findAll(paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0, sort = 'id_lots'} = paginationDto;
-    const lots = await this.lotRepository.find({
-      take: limit,
-      skip: offset,
-      relations: ['medicalSupply', 'supplier'],
-      order: {
-        medicalSupply:{
-          id_medical_supplies: 'ASC',
-        },
-        [sort]: 'ASC',
-      }
-    })
+    let { limit = 20 , offset = 0, sort = 'id_lots', order} = paginationDto;
+    if ( sort === 'name_material' || sort === 'description')
+      sort = 'medicalSupply.' + sort;
+    else
+      sort = 'lots.' + sort;
+    const lots = await this.lotRepository.createQueryBuilder('lots')
+                      .leftJoinAndSelect('lots.medicalSupply', 'medicalSupply')
+                      .leftJoinAndSelect('lots.supplier', 'supplier')
+                      .take(limit)
+                      .skip(offset)
+                      .orderBy(sort, order)
+                      .getMany();
     this.logger.log(`Found ${lots.length} lots`, 'LotService')
     return lots;
   }
@@ -72,18 +72,23 @@ export class LotService {
 
 
   async findByTerm( paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0, sort = 'id_lots'} = paginationDto;
+    let { limit = 20 , offset = 0, sort = 'id_lots', order} = paginationDto;
+    if ( sort === 'name_material' || sort === 'description')
+      sort = 'medicalSupply.' + sort;
+    else
+      sort = 'lots.' + sort;
+    console.log(sort)
     const term = paginationDto.search;
     const lots = await this.lotRepository.createQueryBuilder('lots')
-                     .leftJoin('lots.medicalSupply', 'medicalSupply')
-                     .leftJoinAndSelect('lots.medicalSupply', 'medicalSupplyType')
+                     .leftJoinAndSelect('lots.medicalSupply', 'medicalSupply')
+                     .leftJoinAndSelect('lots.supplier', 'supplier')
                      .where('lots.stock::text LIKE :term', { term: `%${term}%` })
                      .orWhere('lots.date_delivery::text LIKE :term', { term: `%${term}%` })
                      .orWhere('lots.due_date::text LIKE :term', { term: `%${term}%` })   
                      .orWhere('UPPER(medicalSupply.name_material) LIKE :term', { term: `%${term.toUpperCase()}%` })                 
                      .take(limit)
                      .skip(offset)
-                     .orderBy('lots.'+sort, 'ASC')
+                     .orderBy(sort, order)
                      .getMany();
     this.logger.log(`Found ${lots.length} lots`, 'LotService')
     return lots;

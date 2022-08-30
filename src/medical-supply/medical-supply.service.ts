@@ -60,13 +60,13 @@ export class MedicalSupplyService {
   }
 
   async findByName( paginationDto: PaginationDto) {
-    const { limit = 20 , offset = 0} = paginationDto;
+    const { limit = 20 , offset = 0, order} = paginationDto;
     const name = paginationDto.search;
     const query = this.medicalRepository.createQueryBuilder()
                   .where('UPPER(name_material) LIKE :name', { name: `%${name.toUpperCase()}%` })
                   .take(limit)
                   .skip(offset)
-                  .orderBy('name_material', 'ASC');
+                  .orderBy('name_material', order);
     const medical_supplies = await query.getMany();
     this.logger.log(`Found ${medical_supplies.length} medical_supplies`, 'Medical-SupplyService');
     return medical_supplies;
