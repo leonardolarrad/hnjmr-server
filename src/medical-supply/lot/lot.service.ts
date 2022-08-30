@@ -10,6 +10,7 @@ import { Lot } from './entities/lot.entity';
 import { Supplier } from './entities/supplier.entity';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 
+
 @Injectable()
 export class LotService {
 
@@ -60,9 +61,18 @@ export class LotService {
     return lot;
   }
 
+  async find(paginationDto: PaginationDto){
+    if (paginationDto.search) {
+      return await this.findByTerm(paginationDto);
+    } else {
+      return await this.findAll(paginationDto);
+    }
+  }
 
-  async findByTerm(term: string, paginationDto: PaginationDto) {
+
+  async findByTerm( paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0} = paginationDto;
+    const term = paginationDto.search;
     const lots = await this.lotRepository.createQueryBuilder('lots')
                      .leftJoin('lots.medicalSupply', 'medicalSupply')
                      .leftJoinAndSelect('lots.medicalSupply', 'medicalSupplyType')

@@ -4,7 +4,8 @@ import { CreateLotDto } from './dto/create-lot.dto';
 import { UpdateLotDto } from './dto/update-lot.dto';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
 
-@Controller('lot')
+
+@Controller('lots')
 export class LotController {
   constructor(private readonly lotService: LotService) {}
 
@@ -14,13 +15,13 @@ export class LotController {
   }
 
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.lotService.findAll(paginationDto);
+  find(@Query() paginationDto: PaginationDto) {
+    return this.lotService.find(paginationDto);
   }
 
-  @Get(':term')
-  findByTerm(@Param('term') term: string, @Query() paginationDto: PaginationDto) {
-    return this.lotService.findByTerm(term, paginationDto);
+  @Get(':id')
+  findById(@Param('id', ParseIntPipe) id: string) {
+    return this.lotService.findOneById(+id);
   }
 
   @Patch(':id')

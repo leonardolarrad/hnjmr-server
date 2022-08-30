@@ -42,6 +42,17 @@ export class NationalAssetService {
     return assets;
   }
 
+  async find(paginationDto: PaginationDto){
+
+    if (paginationDto.search) {
+      return await this.findByTerm(paginationDto);
+    } else {
+      return await this.findAll(paginationDto);
+    }
+  }
+
+
+
   async findOne(id: number) {
     const asset = await this.assetRepository.findOne({ where: { id_asset: id } });
     if (!asset) {
@@ -50,8 +61,9 @@ export class NationalAssetService {
     return asset;
   }
 
-  async findByTerm(term: string, paginationDto: PaginationDto) {
+  async findByTerm(paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0} = paginationDto;
+    const term = paginationDto.search;
     const query = this.assetRepository.createQueryBuilder()
                   .where('upper(name) LIKE :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('UPPER(description) LIKE :term', { term: `%${term.toUpperCase()}%` })

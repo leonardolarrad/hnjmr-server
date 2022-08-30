@@ -4,7 +4,7 @@ import { CreateMedicalSupplyDto } from './dto/create-medical-supply.dto';
 import { UpdateMedicalSupplyDto } from './dto/update-medical-supply.dto';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 
-@Controller('medical-supply')
+@Controller('medical-supplies')
 export class MedicalSupplyController {
   constructor(private readonly medicalSupplyService: MedicalSupplyService) {}
 

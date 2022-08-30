@@ -4,7 +4,8 @@ import { CreateNationalAssetDto } from './dto/create-national-asset.dto';
 import { UpdateNationalAssetDto } from './dto/update-national-asset.dto';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 
-@Controller('national-asset')
+
+@Controller('national-assets')
 export class NationalAssetController {
   constructor(private readonly nationalAssetService: NationalAssetService) {}
 
@@ -14,13 +15,13 @@ export class NationalAssetController {
   }
 
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.nationalAssetService.findAll(paginationDto);
+  find(@Query() paginationDto: PaginationDto) {
+    return this.nationalAssetService.find(paginationDto);
   }
 
-  @Get(':term')
-  findByTerm(@Param('term') term: string, @Query() paginationDto : PaginationDto) {
-    return this.nationalAssetService.findByTerm(term, paginationDto);
+  @Get(':id')
+  findByTerm(@Param('id', ParseIntPipe) id: string) {
+    return this.nationalAssetService.findOne(+id);
   }
 
   @Patch(':id')
