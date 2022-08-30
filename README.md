@@ -32,3 +32,9 @@ $ npm install
 ```
 $ npm run start:dev
 ```
+
+4. Correr el SEED para cargar data en el sistema.
+
+```
+$ http://localhost:3000/api/seed
+```
