@@ -13,7 +13,7 @@ export class Lot {
     @Column({type: 'integer' })
     stock: number;
 
-    @Column({type: 'date' })
+    @Column({type: 'date', nullable: true })
     due_date: Date;
 
     @ManyToOne(type => MedicalSupply, medicalSupply => medicalSupply.lots, { onDelete: 'CASCADE' })

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { LoggerAdapter } from '../common/adapters/logger.adapter';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Supplier } from '../medical-supply/lot/entities/supplier.entity';
+import { LoggerAdapter } from '../common/adapters/logger.adapter';
 import { DepartmentService } from '../department/department.service';
 import { LotService } from '../medical-supply/lot/lot.service';
 import { NationalAssetService } from '../national-asset/national-asset.service';
@@ -16,12 +18,19 @@ export class SeedService{
     private readonly lotService: LotService,
     private readonly departmentService: DepartmentService,
     private readonly nationalAssetService: NationalAssetService,
+    @InjectRepository(Supplier)
+    private readonly supplierRepository: Repository<Supplier>,
     private readonly logger : LoggerAdapter
   ) {}
   
 
   async executeSeed() {
-    return `This action returns all seed`;
+    await this.deleteAll();
+    await this.insertNewAsset();
+    await this.insertNewDepartment();
+    await this.insertNewSuppliers();
+    await this.insertNewLot();
+    return `SEED EXECUTED`;
   }
 
   private async insertNewAsset(){
@@ -54,12 +63,23 @@ export class SeedService{
     this.logger.log(`Inserted ${lots.length} lots`, 'SeedService');
   }
 
+  private async insertNewSuppliers(){
+    const Suppliers = initialData.seedSuppliers;
+    const insertPromises = [];
+    Suppliers.forEach(supplier => {
+      insertPromises.push(this.supplierRepository.save(supplier));
+    });
+    await Promise.all(insertPromises);
+    this.logger.log(`Inserted ${Suppliers.length} suppliers`, 'SeedService');
+  }
+
   
 
   private async deleteAll(){
+    await this.lotService.deleteAllLots();
+    await this.supplierRepository.delete({});
     await this.departmentService.deleteAllDepartments();
     await this.nationalAssetService.deleteAllAssets();
-    await this.lotService.deleteAllLots();
   }
 
   
