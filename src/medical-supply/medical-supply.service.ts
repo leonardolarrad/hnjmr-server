@@ -50,8 +50,18 @@ export class MedicalSupplyService {
     return medicalSupply;
   }
 
-  async findByName(name: string, paginationDto: PaginationDto) {
+  async find(paginationDto: PaginationDto){
+
+    if (paginationDto.search) {
+      return await this.findByName(paginationDto);
+    } else {
+      return await this.findAll(paginationDto);
+    }
+  }
+
+  async findByName( paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0} = paginationDto;
+    const name = paginationDto.search;
     const query = this.medicalRepository.createQueryBuilder()
                   .where('UPPER(name_material) LIKE :name', { name: `%${name.toUpperCase()}%` })
                   .take(limit)

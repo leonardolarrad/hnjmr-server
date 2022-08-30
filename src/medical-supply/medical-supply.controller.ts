@@ -14,8 +14,8 @@ export class MedicalSupplyController {
   }
 
   @Get()
-  findAll(@Query() paginationDto: PaginationDto) {
-    return this.medicalSupplyService.findAll(paginationDto);
+  find(@Query() paginationDto: PaginationDto) {
+    return this.medicalSupplyService.find(paginationDto);
   }
 
   @Get(':id')
@@ -23,10 +23,6 @@ export class MedicalSupplyController {
     return this.medicalSupplyService.findOneById(+id);
   }
 
-  @Get('name/:name')
-  findByName(@Param('name') name: string, @Query() paginationDto: PaginationDto) {
-    return this.medicalSupplyService.findByName(name, paginationDto);
-  }
 
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: string, @Body() updateMedicalSupplyDto: UpdateMedicalSupplyDto) {
