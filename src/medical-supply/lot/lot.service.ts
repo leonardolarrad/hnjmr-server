@@ -39,6 +39,7 @@ export class LotService {
 
   async findAll(paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0} = paginationDto;
+    const sort = paginationDto.sort;
     const lots = await this.lotRepository.find({
       take: limit,
       skip: offset,
@@ -73,15 +74,17 @@ export class LotService {
   async findByTerm( paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0} = paginationDto;
     const term = paginationDto.search;
+    const sort = paginationDto.sort;
     const lots = await this.lotRepository.createQueryBuilder('lots')
                      .leftJoin('lots.medicalSupply', 'medicalSupply')
                      .leftJoinAndSelect('lots.medicalSupply', 'medicalSupplyType')
-                     .where('UPPER(medicalSupply.name_material) LIKE :term', { term: `%${term.toUpperCase()}%` })
-                     .orWhere('lots.stock::text LIKE :term', { term: `%${term}%` })
+                     .where('lots.stock::text LIKE :term', { term: `%${term}%` })
                      .orWhere('lots.date_delivery::text LIKE :term', { term: `%${term}%` })
-                     .orWhere('lots.due_date::text LIKE :term', { term: `%${term}%` })                    
+                     .orWhere('lots.due_date::text LIKE :term', { term: `%${term}%` })   
+                     .orWhere('UPPER(medicalSupply.name_material) LIKE :term', { term: `%${term.toUpperCase()}%` })                 
                      .take(limit)
                      .skip(offset)
+                     .orderBy(sort)
                      .getMany();
     this.logger.log(`Found ${lots.length} lots`, 'LotService')
     return lots;
