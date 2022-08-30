@@ -18,9 +18,9 @@ export class LotController {
     return this.lotService.findAll(paginationDto);
   }
 
-  @Get(':name')
-  findByName(@Param('name') name: string, @Query() paginationDto: PaginationDto) {
-    return this.lotService.findByName(name, paginationDto);
+  @Get(':term')
+  findByTerm(@Param('term') term: string, @Query() paginationDto: PaginationDto) {
+    return this.lotService.findByTerm(term, paginationDto);
   }
 
   @Patch(':id')

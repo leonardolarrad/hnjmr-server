@@ -61,12 +61,15 @@ export class LotService {
   }
 
 
-  async findByName(name: string, paginationDto: PaginationDto) {
+  async findByTerm(term: string, paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0} = paginationDto;
     const lots = await this.lotRepository.createQueryBuilder('lots')
                      .leftJoin('lots.medicalSupply', 'medicalSupply')
                      .leftJoinAndSelect('lots.medicalSupply', 'medicalSupplyType')
-                     .where('UPPER(medicalSupply.name_material) LIKE :name', { name: `%${name.toUpperCase()}%` })
+                     .where('UPPER(medicalSupply.name_material) LIKE :term', { term: `%${term.toUpperCase()}%` })
+                     .orWhere('lots.stock::text LIKE :term', { term: `%${term}%` })
+                     .orWhere('lots.date_delivery::text LIKE :term', { term: `%${term}%` })
+                     .orWhere('lots.due_date::text LIKE :term', { term: `%${term}%` })                    
                      .take(limit)
                      .skip(offset)
                      .getMany();
