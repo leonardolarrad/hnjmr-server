@@ -56,7 +56,9 @@ export class LotService {
   }
 
   async findOneById(id: number) {
-    const lot = await this.lotRepository.findOne({ where: { id_lots: id } });
+    const lot = await this.lotRepository.findOne({ 
+      where: { id_lots: id },
+      relations: ['medicalSupply', 'supplier'], });
     if (!lot) {
       throw new BadRequestException(`Lot with id ${id} not found`);
     }
