@@ -31,7 +31,7 @@ import { SeedModule } from './seed/seed.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
-      synchronize: process.env.STAGE === 'dev',
+      synchronize: true,
     }),
     MedicalSupplyModule,
     LotModule,
