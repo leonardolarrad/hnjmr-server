@@ -33,4 +33,9 @@ export class LotController {
   remove(@Param('id', ParseIntPipe) id: string) {
     return this.lotService.remove(+id);
   }
+
+  @Get('/suppliers/all')
+  findAllSuppliers() {
+    return this.lotService.findAllSuppliers();
+  }
 }

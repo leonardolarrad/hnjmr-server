@@ -129,6 +129,12 @@ export class LotService {
     }
   }
 
+  async findAllSuppliers() {
+    const suppliers = await this.supplierRepository.find();
+    this.logger.log(`Found ${suppliers.length} suppliers`, 'LotService')
+    return suppliers;
+  }
+
   private handleError(error: any) {
     this.logger.error(error.message, 'LotService');
     if (error.code === '23505') {
