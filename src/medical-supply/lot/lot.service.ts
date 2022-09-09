@@ -98,14 +98,21 @@ export class LotService {
   }
 
   async update(id: number, updateLotDto: UpdateLotDto) {
+    const { id_medical_supplies, id_suppliers, ...lotDetails } = updateLotDto;
     const lot = await this.lotRepository.preload({
       id_lots: id,
-      ...updateLotDto,
+      ...lotDetails,
     })
     if (!lot) {
       throw new NotFoundException('Lot not found');
     }
     try {
+      if (id_medical_supplies){
+        lot.medicalSupply = await this.medicalSupplyService.findOneById(id_medical_supplies);
+      }
+      if (id_suppliers){
+        lot.supplier = await this.supplierRepository.findOne({ where: { id_suppliers: id_suppliers } });
+      }
       await this.lotRepository.save(lot);
       this.logger.log(`Updated lot with id ${id}`, 'LotService');
       return lot;
