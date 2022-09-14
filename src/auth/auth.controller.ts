@@ -1,11 +1,8 @@
-import { Controller, Post, Body, Get, UseGuards, Patch } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Post, Body, Get, Patch } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RoleProtected, GetUser, Auth } from './decorators';
-import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
+import { GetUser, Auth } from './decorators';
+import { CreateUserDto, LoginUserDto, UpdateUserDto, UpdatePasswordDto } from './dto';
 import { User } from './entities/auth.entity';
-import { UserRoleGuard } from './guards/user-role.guard';
-import { ValidRoles } from './interfaces';
 
 
 @Controller('auth')
@@ -38,6 +35,12 @@ export class AuthController {
   @Auth()
   updateUser(@GetUser() user: User, @Body() updateUserDto: UpdateUserDto) {
     return this.authService.updateUser(user, updateUserDto);
+  }
+
+  @Patch('update-password')
+  @Auth()
+  updatePassword(@GetUser() user: User, @Body() updatePasswordDto: UpdatePasswordDto) {
+    return this.authService.updatePassword(user, updatePasswordDto);
   }
 
   

@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, Unauthor
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
-import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, LoginUserDto, UpdatePasswordDto, UpdateUserDto } from './dto';
 import { User } from './entities/auth.entity';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { LoggerAdapter, BcryptAdapter } from '../common/adapters';
@@ -61,10 +61,8 @@ export class AuthService {
   }
 
   async updateUser( user: User, updateUserDto: UpdateUserDto) {
+
     
-    if (updateUserDto.password) {
-      updateUserDto.password = this.bcrypt.encrypt(updateUserDto.password, 10);
-    }
     const userDB = await this.userRepository.preload({
       id: user.id,
       ...updateUserDto
@@ -78,6 +76,29 @@ export class AuthService {
       this.handleDBError(error);
     }
   }
+
+  async updatePassword( user: User, updatePasswordDto: UpdatePasswordDto) {
+    const { last_password, new_password } = updatePasswordDto;
+    
+    const userDB = await this.userRepository.findOne({ 
+      where: { id: user.id },
+      select: {email: true, password: true, id: true}
+    });
+
+    if (!this.bcrypt.compare(last_password, userDB.password)) {
+      throw new UnauthorizedException('Invalid credentials (password)');
+    }
+
+    userDB.password = this.bcrypt.encrypt(new_password, 10);
+    try {
+      await this.userRepository.save(userDB);
+      this.logger.log(`User ${userDB.email} updated password`, 'AuthService');
+      return userDB;
+    } catch (error) {
+      this.handleDBError(error);
+    }
+  }
+   
 
   checkAuthStatus(user: User) {
     return {
