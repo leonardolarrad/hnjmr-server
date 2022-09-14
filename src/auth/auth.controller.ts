@@ -1,9 +1,8 @@
-import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Patch } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { RoleProtected, GetUser, Auth } from './decorators';
-import { RawHeaders } from './decorators/raw-headers.decorator';
-import { CreateUserDto, LoginUserDto } from './dto';
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 import { User } from './entities/auth.entity';
 import { UserRoleGuard } from './guards/user-role.guard';
 import { ValidRoles } from './interfaces';
@@ -26,31 +25,21 @@ export class AuthController {
   @Get('check-auth-status')
   @Auth()
   checkAuthStatus(@GetUser() user: User) {
-
     return this.authService.checkAuthStatus(user);
   }
 
-
-
-  @Get('private')
-  @RoleProtected(ValidRoles.USER)
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  getPrivate(
-    @GetUser() user: User,
-  ) {
-    return {
-      user
-    };
-  }
-
-  @Get('private2')
+  @Get('info-user')
   @Auth()
-  getPrivate2(
-    @GetUser() user: User,
-  ) {
-    return {
-      user
-    };
+  infoUser(@GetUser() user: User) {
+    return { user };
   }
+
+  @Patch('update')
+  @Auth()
+  updateUser(@GetUser() user: User, @Body() updateUserDto: UpdateUserDto) {
+    return this.authService.updateUser(user, updateUserDto);
+  }
+
+  
 
 }

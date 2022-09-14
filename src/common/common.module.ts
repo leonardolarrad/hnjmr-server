@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { LoggerAdapter } from './adapters/logger.adapter';
+import { LoggerAdapter, BcryptAdapter } from './adapters';
 
 
 @Module({
-  providers: [ LoggerAdapter],
-  exports: [ LoggerAdapter],
+  providers: [ LoggerAdapter, BcryptAdapter ],
+  exports: [ LoggerAdapter, BcryptAdapter ],
 })
 export class CommonModule {}

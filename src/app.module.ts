@@ -9,6 +9,7 @@ import { LotModule } from './medical-supply/lot/lot.module';
 import { DepartmentModule } from './department/department.module';
 import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 
 
@@ -41,7 +42,8 @@ import { AuthModule } from './auth/auth.module';
     CommonModule,
     DepartmentModule,
     SeedModule,
-    AuthModule,],
+    AuthModule,
+    UserModule,],
   controllers: [],
   providers: [],
 })

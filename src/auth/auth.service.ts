@@ -2,10 +2,10 @@ import { BadRequestException, Injectable, InternalServerErrorException, Unauthor
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
-import { CreateUserDto, LoginUserDto } from './dto';
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto';
 import { User } from './entities/auth.entity';
-import { BcryptAdapter } from './../common/adapters/bcrypt.adapter';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { LoggerAdapter, BcryptAdapter } from '../common/adapters';
 
 
 @Injectable()
@@ -15,7 +15,8 @@ export class AuthService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
-    private readonly bcrypt : BcryptAdapter
+    private readonly bcrypt : BcryptAdapter,
+    private readonly logger : LoggerAdapter
   ) {}
 
 
@@ -27,6 +28,7 @@ export class AuthService {
         password: this.bcrypt.encrypt(password, 10)
       });
       await this.userRepository.save(user);
+      this.logger.log(`User ${user.email} created`, 'AuthService');
       return {
         ...user,
         token: this.getJWTToken({id: user.id})
@@ -51,11 +53,30 @@ export class AuthService {
     if (!this.bcrypt.compare(password, user.password)) {
       throw new UnauthorizedException('Invalid credentials (password)');
     }
-
+    this.logger.log(`User ${user.email} logged in`, 'AuthService');
     return {
       ...user,
       token: this.getJWTToken({id: user.id})
     };
+  }
+
+  async updateUser( user: User, updateUserDto: UpdateUserDto) {
+    
+    if (updateUserDto.password) {
+      updateUserDto.password = this.bcrypt.encrypt(updateUserDto.password, 10);
+    }
+    const userDB = await this.userRepository.preload({
+      id: user.id,
+      ...updateUserDto
+    });
+
+    try {
+      await this.userRepository.save(userDB);
+      this.logger.log(`User ${userDB.email} updated`, 'AuthService');
+      return userDB;
+    } catch (error) {
+      this.handleDBError(error);
+    }
   }
 
   checkAuthStatus(user: User) {
@@ -64,8 +85,6 @@ export class AuthService {
       token: this.getJWTToken({id: user.id})
     };
   }
-
-
 
   private getJWTToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
