@@ -3,6 +3,8 @@ import { MedicalSupplyService } from './medical-supply.service';
 import { CreateMedicalSupplyDto } from './dto/create-medical-supply.dto';
 import { UpdateMedicalSupplyDto } from './dto/update-medical-supply.dto';
 import { PaginationDto } from '../common/dtos/pagination.dto';
+import { Auth } from '../auth/decorators';
+import { ValidRoles } from '../auth/interfaces';
 
 @Controller('medical-supplies')
 export class MedicalSupplyController {
@@ -30,6 +32,7 @@ export class MedicalSupplyController {
   }
 
   @Delete(':id')
+  @Auth(ValidRoles.ADMIN)
   remove(@Param('id', ParseIntPipe) id: string) {
     return this.medicalSupplyService.remove(+id);
   }

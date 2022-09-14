@@ -3,6 +3,8 @@ import { LotService } from './lot.service';
 import { CreateLotDto } from './dto/create-lot.dto';
 import { UpdateLotDto } from './dto/update-lot.dto';
 import { PaginationDto } from '../../common/dtos/pagination.dto';
+import { Auth } from '../../auth/decorators';
+import { ValidRoles } from '../../auth/interfaces';
 
 
 @Controller('lots')
@@ -30,6 +32,7 @@ export class LotController {
   }
 
   @Delete(':id')
+  @Auth(ValidRoles.ADMIN)
   remove(@Param('id', ParseIntPipe) id: string) {
     return this.lotService.remove(+id);
   }

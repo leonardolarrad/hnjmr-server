@@ -4,6 +4,7 @@ import { DepartmentService } from './department.service';
 import { DepartmentController } from './department.controller';
 import { Department } from './entities/department.entity';
 import { CommonModule } from '.././common/common.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   controllers: [DepartmentController],
@@ -11,6 +12,7 @@ import { CommonModule } from '.././common/common.module';
   imports: [
     TypeOrmModule.forFeature([Department]),
     CommonModule,
+    AuthModule
   ],
   exports: [DepartmentService, TypeOrmModule],
 })

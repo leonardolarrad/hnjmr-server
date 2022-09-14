@@ -4,6 +4,7 @@ import { NationalAssetService } from './national-asset.service';
 import { NationalAssetController } from './national-asset.controller';
 import { NationalAsset } from './entities/national-asset.entity';
 import { CommonModule } from '../common/common.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   controllers: [NationalAssetController],
@@ -11,6 +12,7 @@ import { CommonModule } from '../common/common.module';
   imports : [
     TypeOrmModule.forFeature([NationalAsset]),
     CommonModule,
+    AuthModule,
   ],
   exports: [NationalAssetService, TypeOrmModule],
 })
