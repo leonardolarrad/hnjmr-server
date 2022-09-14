@@ -33,7 +33,7 @@ import { UserModule } from './user/user.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: process.env.STAGE === 'dev',
     }),
     MedicalSupplyModule,
     LotModule,

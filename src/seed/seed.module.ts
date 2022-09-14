@@ -5,6 +5,7 @@ import { CommonModule } from '../common/common.module';
 import { LotModule } from '../medical-supply/lot/lot.module';
 import { DepartmentModule } from '../department/department.module';
 import { NationalAssetModule } from '../national-asset/national-asset.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   controllers: [SeedController],
@@ -13,7 +14,8 @@ import { NationalAssetModule } from '../national-asset/national-asset.module';
     CommonModule,
     LotModule,
     DepartmentModule,
-    NationalAssetModule
+    NationalAssetModule,
+    AuthModule,
   ],
 })
 export class SeedModule {}
