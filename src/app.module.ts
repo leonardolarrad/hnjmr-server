@@ -10,6 +10,7 @@ import { DepartmentModule } from './department/department.module';
 import { SeedModule } from './seed/seed.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { AssetModule } from './asset/asset.module';
 
 
 
@@ -33,7 +34,7 @@ import { UserModule } from './user/user.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
-      synchronize: process.env.STAGE === 'dev',
+      synchronize: true,
     }),
     MedicalSupplyModule,
     LotModule,
@@ -43,7 +44,8 @@ import { UserModule } from './user/user.module';
     DepartmentModule,
     SeedModule,
     AuthModule,
-    UserModule,],
+    UserModule,
+    AssetModule,],
   controllers: [],
   providers: [],
 })
