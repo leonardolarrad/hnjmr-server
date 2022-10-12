@@ -34,7 +34,7 @@ import { AssetModule } from './asset/asset.module';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DATABASE,
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: process.env.STAGE === 'dev',
     }),
     MedicalSupplyModule,
     LotModule,
