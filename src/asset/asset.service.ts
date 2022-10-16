@@ -52,18 +52,18 @@ export class AssetService {
 
   async findByTerm(paginationDto: PaginationDto) {
     const { limit = 20 , offset = 0, sort = 'id_asset', order = Order.ASC} = paginationDto;
-    const term = paginationDto.search;
+    const term = paginationDto.search.toUpperCase();
     const query = this.assetRepository.createQueryBuilder()
-                  .where('upper(Asset.group) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(subgroup) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(section) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(num) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(Asset.desc) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(tower) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(floor) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(room) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(serial) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(cin) like :term', { term: `%${term.toUpperCase()}%` })
+                  .where('upper(Asset.group) like :term', { term: `%${term}%` })
+                  .orWhere('upper(subgroup) like :term', { term: `%${term}%` })
+                  .orWhere('upper(section) like :term', { term: `%${term}%` })
+                  .orWhere('upper(num) like :term', { term: `%${term}%` })
+                  .orWhere('upper(Asset.desc) like :term', { term: `%${term}%` })
+                  .orWhere('upper(tower) like :term', { term: `%${term}%` })
+                  .orWhere('upper(floor) like :term', { term: `%${term}%` })
+                  .orWhere('upper(room) like :term', { term: `%${term}%` })
+                  .orWhere('upper(serial) like :term', { term: `%${term}%` })
+                  .orWhere('upper(cin) like :term', { term: `%${term}%` })
                   .orWhere('unit_value::text like :term', { term: `%${term}%` })
                   .orWhere('quantity::text like :term', { term: `%${term}%` })
                   .orderBy(sort, order)
