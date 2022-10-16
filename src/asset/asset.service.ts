@@ -44,6 +44,7 @@ export class AssetService {
 
   async find (paginationDto: PaginationDto) {
     if (paginationDto.search) {
+      console.log('search', paginationDto.search);
       return await this.findByTerm(paginationDto);
     } else {
       return await this.findAll(paginationDto);
@@ -51,14 +52,14 @@ export class AssetService {
   }
 
   async findByTerm(paginationDto: PaginationDto) {
-    const { limit = 20, offset = 0, sort = 'id_asset', order = Order.ASC } = paginationDto;
+    const { limit = 20 , offset = 0, sort = 'id_asset', order = Order.ASC} = paginationDto;
     const term = paginationDto.search;
     const query = this.assetRepository.createQueryBuilder()
-                  .where('upper(group) like :term', { term: `%${term.toUpperCase()}%` })
+                  .where('upper(Asset.group) like :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('upper(subgroup) like :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('upper(section) like :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('upper(num) like :term', { term: `%${term.toUpperCase()}%` })
-                  .orWhere('upper(desc) like :term', { term: `%${term.toUpperCase()}%` })
+                  .orWhere('upper(Asset.desc) like :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('upper(tower) like :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('upper(floor) like :term', { term: `%${term.toUpperCase()}%` })
                   .orWhere('upper(room) like :term', { term: `%${term.toUpperCase()}%` })
@@ -69,6 +70,7 @@ export class AssetService {
                   .orderBy(sort, order)
                   .take(limit)
                   .skip(offset);
+    console.log(query.getSql());
     const assets = await query.getMany();
     this.logger.log(`Found ${assets.length} assets`, 'AssetService');
     return assets;
