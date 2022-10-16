@@ -44,7 +44,6 @@ export class AssetService {
 
   async find (paginationDto: PaginationDto) {
     if (paginationDto.search) {
-      console.log('search', paginationDto.search);
       return await this.findByTerm(paginationDto);
     } else {
       return await this.findAll(paginationDto);
