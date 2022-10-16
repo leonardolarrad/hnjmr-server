@@ -69,7 +69,6 @@ export class AssetService {
                   .orderBy(sort, order)
                   .take(limit)
                   .skip(offset);
-    console.log(query.getSql());
     const assets = await query.getMany();
     this.logger.log(`Found ${assets.length} assets`, 'AssetService');
     return assets;
