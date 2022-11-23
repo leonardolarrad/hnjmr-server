@@ -14,6 +14,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     })
   );
+
+  app.enableCors(); // habilita el cors
+
   app.useGlobalFilters(new AllExceptionFilter(new LoggerAdapter()));
   app.useGlobalInterceptors(new LoggingInterceptor(new LoggerAdapter()));
   await app.listen(parseInt(process.env.PORT) || 3000);
